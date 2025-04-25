@@ -25,7 +25,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
+      - "--entrypoints.http.address=:80"
     ports:
       - "3000:80"
       # - "8080:8080"  # Traefik dashboard
