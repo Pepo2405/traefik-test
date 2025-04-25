@@ -3,6 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-      - "3001:3001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.server1.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.server1.service=server1"
+      - "traefik.http.services.server1.loadbalancer.server.port=3000"
+      - "traefik.http.routers.server1.priority=1"
+      - "traefik.http.routers.server2.rule=PathPrefix(`/server2`)"
+      - "traefik.http.routers.server2.service=server2"
+      - "traefik.http.services.server2.loadbalancer.server.port=3001"
+      - "traefik.http.middlewares.strip-server2.stripprefix.prefixes=/server2"
+      - "traefik.http.routers.server2.middlewares=strip-server2"
+      - "traefik.http.routers.server2.priority=10"
