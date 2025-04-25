@@ -1,21 +1,21 @@
 services:
-  servers:
+  server-1:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-      - "3001:3001"
     labels:
       - "traefik.enable=true"
-      # Server 1 configuration
-      - "traefik.http.routers.server1.rule=Host(`gym.pepo.ar`)"
-      - "traefik.http.routers.server1.entrypoints=web"
-      - "traefik.http.services.server1.loadbalancer.server.port=3000"
-      # Server 2 configuration - Usando un subdominio virtual
-      - "traefik.http.routers.server2.rule=Host(`gym.pepo.ar`) && PathPrefix(`/server2`)"
-      - "traefik.http.routers.server2.entrypoints=web"
-      - "traefik.http.services.server2.loadbalancer.server.port=3001"
-      - "traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/server2"
-      - "traefik.http.routers.server2.middlewares=strip-prefix"
-      - "traefik.http.routers.server2.priority=100"
+      - "traefik.http.routers.server1.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.server1.priority=1"
+      - "traefik.http.services.server1.loadbalancer.server.port=3000"  # Service handling for domain.com
+  server-2:
+    build:
+      context: .
+      dockerfile: Dockerfile2
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.server2.rule=PathPrefix(`/server2`)"
+      - "traefik.http.routers.server2.priority=10"
+      - "traefik.http.services.server2.loadbalancer.server.port=3001"  # Service handling for domain.com/server2
+      - "traefik.http.middlewares.strip-server2.stripprefix.prefixes=/server2"
+      - "traefik.http.routers.server2.middlewares=strip-server2"
