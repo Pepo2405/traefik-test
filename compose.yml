@@ -25,9 +25,10 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.web.address=:3000"
+      - "--entryPoints.dashboard.address=:3005"
     ports:
       - "3000:3000"
-      - "8080:8080"
+      - "3005:3005"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
