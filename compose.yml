@@ -10,4 +10,6 @@ services:
       - "traefik.http.services.app.loadbalancer.server.port=3000"  # Service handling for domain.com
       - "traefik.http.routers.api.rule=PathPrefix(`/server2`)"
       - "traefik.http.services.api.loadbalancer.server.port=3001"  # Service handling for domain.com/api
-      - "traefik.http.routers.api.priority=3"
+      - "traefik.http.routers.api.priority=10"
+      - "traefik.http.middlewares.strip-server2.stripprefix.prefixes=/server2"
+      - "traefik.http.routers.api.middlewares=strip-server2"
