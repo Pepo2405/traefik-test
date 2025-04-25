@@ -8,7 +8,9 @@ services:
       - "3001:3001"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`${COOLIFY_URL}`)"
-      - "traefik.http.services.app.loadbalancer.server.port=80"  # Service handling for domain.com
-      - "traefik.http.routers.api.rule=Host(`${COOLIFY_URL}`) && PathPrefix(`/api`)"
-      - "traefik.http.services.api.loadbalancer.server.port=81"  # Service handling for domain.com/api
+      - "traefik.http.routers.app.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.app.priority=1"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"  # Service handling for domain.com
+      - "traefik.http.routers.api.rule=PathPrefix(`/server2`)"
+      - "traefik.http.services.api.loadbalancer.server.port=3001"  # Service handling for domain.com/api
+      - "traefik.http.routers.api.priority=3"
