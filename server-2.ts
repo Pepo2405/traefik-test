@@ -4,6 +4,7 @@ import { serve } from "bun";
 const server = serve({
   port: 3001,
   fetch(req) {
+    console.log(`Server 2 ${req.url} ${new Date().toISOString()}`);
     const url = new URL(req.url);
     
     // Handle different routes
